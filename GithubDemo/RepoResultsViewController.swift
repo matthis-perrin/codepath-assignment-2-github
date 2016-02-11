@@ -68,6 +68,21 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource {
         cell.setRepo(self.repos[indexPath.row])
         return cell
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let settingsViewController = sender as? GithubSettingsViewController {
+            settingsViewController.delegate = self
+            settingsViewController.settings = self.searchSettings
+        }
+    }
+}
+
+// GithubSettingsViewControllerDelegate
+extension RepoResultsViewController: GithubSettingsViewControllerDelegate {
+    func settingsDidUpdate(newSettings: GithubRepoSearchSettings) {
+        self.searchSettings = newSettings
+        self.doSearch()
+    }
 }
 
 // SearchBar methods
